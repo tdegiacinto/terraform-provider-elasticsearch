@@ -39,7 +39,8 @@ func resourceElasticsearchWatchCreate(d *schema.ResourceData, m interface{}) err
 	// Determine whether the watch already exists.
 	watchID := d.Get("watch_id").(string)
 	_, err := resourceElasticsearchGetWatch(watchID, m)
-	if !elastic6.IsNotFound(err) && !elastic7.IsNotFound(err) {
+	// if !elastic6.IsNotFound(err) && !elastic7.IsNotFound(err) {
+	if elastic6.IsNotFound(err) || elastic7.IsNotFound(err) {
 		log.Printf("[INFO] watch exists: %+v", err)
 		return fmt.Errorf("watch already exists with ID: %v", watchID)
 	}
