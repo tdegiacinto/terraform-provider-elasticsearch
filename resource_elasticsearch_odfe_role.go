@@ -226,11 +226,11 @@ func resourceElasticsearchPutOdfeRole(d *schema.ResourceData, m interface{}) (*R
 	}
 	var tenantPermissionsBody []TenantPermissions = []TenantPermissions{}
 	for _, tenant := range tenantPermissions {
-		putTeanant := TenantPermissions{
+		putTenant := TenantPermissions{
 			TenantPatterns: tenant.TenantPatterns,
 			AllowedActions: tenant.AllowedActions,
 		}
-		tenantPermissionsBody = append(tenantPermissionsBody, putTeanant)
+		tenantPermissionsBody = append(tenantPermissionsBody, putTenant)
 	}
 
 	rolesDefinition := RoleBody{
