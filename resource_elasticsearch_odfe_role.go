@@ -99,9 +99,8 @@ func resourceElasticsearchOdfeRole() *schema.Resource {
 }
 
 func resourceElasticsearchOdfeRoleCreate(d *schema.ResourceData, m interface{}) error {
-	_, err := resourceElasticsearchPutOdfeRole(d, m)
-
-	if err != nil {
+	if _, err := resourceElasticsearchPutOdfeRole(d, m); err != nil {
+		log.Printf("[INFO] Failed to put role: %+v", err)
 		return err
 	}
 
@@ -209,7 +208,7 @@ func resourceElasticsearchPutOdfeRole(d *schema.ResourceData, m interface{}) (*R
 	if err != nil {
 		fmt.Print("Error in index get : ", err)
 	}
-	var indexPermissionsBody []IndexPermissions
+	var indexPermissionsBody []IndexPermissions = []IndexPermissions{}
 	for _, idx := range indexPermissions {
 		putIdx := IndexPermissions{
 			IndexPatterns:  idx.IndexPatterns,
@@ -224,13 +223,13 @@ func resourceElasticsearchPutOdfeRole(d *schema.ResourceData, m interface{}) (*R
 	if err != nil {
 		fmt.Print("Error in tenant get : ", err)
 	}
-	var tenantPermissionsBody []TenantPermissions
+	var tenantPermissionsBody []TenantPermissions = []TenantPermissions{}
 	for _, tenant := range tenantPermissions {
-		putTeanant := TenantPermissions{
+		putTenant := TenantPermissions{
 			TenantPatterns: tenant.TenantPatterns,
 			AllowedActions: tenant.AllowedActions,
 		}
-		tenantPermissionsBody = append(tenantPermissionsBody, putTeanant)
+		tenantPermissionsBody = append(tenantPermissionsBody, putTenant)
 	}
 
 	rolesDefinition := RoleBody{
@@ -268,7 +267,7 @@ func resourceElasticsearchPutOdfeRole(d *schema.ResourceData, m interface{}) (*R
 	}
 
 	if err != nil {
-		return response, fmt.Errorf("error creating role mapping: %+v: %+v", err, body)
+		return response, fmt.Errorf("error creating role: %+v: %+v", err, body)
 	}
 
 	if err := json.Unmarshal(body, response); err != nil {
