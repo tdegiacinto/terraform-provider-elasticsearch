@@ -99,9 +99,8 @@ func resourceElasticsearchOdfeRole() *schema.Resource {
 }
 
 func resourceElasticsearchOdfeRoleCreate(d *schema.ResourceData, m interface{}) error {
-	_, err := resourceElasticsearchPutOdfeRole(d, m)
-
-	if err != nil {
+	if _, err := resourceElasticsearchPutOdfeRole(d, m); err != nil {
+		log.Printf("[INFO] Failed to put role: %+v", err)
 		return err
 	}
 
