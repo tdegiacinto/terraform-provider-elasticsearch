@@ -140,7 +140,7 @@ func resourceElasticsearchGetOdfeRolesMapping(roleID string, m interface{}) (Rol
 		})
 		body = res.Body
 	default:
-		err = errors.New("role mapping  resource not implemented prior to Elastic v7")
+		err = errors.New("role mapping resource not implemented prior to Elastic v7")
 	}
 
 	if err != nil {
