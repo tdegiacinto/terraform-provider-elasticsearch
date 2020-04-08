@@ -268,7 +268,7 @@ func resourceElasticsearchPutOdfeRole(d *schema.ResourceData, m interface{}) (*R
 	}
 
 	if err != nil {
-		return response, fmt.Errorf("error creating role mapping: %+v: %+v", err, body)
+		return response, fmt.Errorf("error creating role: %+v: %+v", err, body)
 	}
 
 	if err := json.Unmarshal(body, response); err != nil {
